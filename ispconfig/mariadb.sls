@@ -1,7 +1,8 @@
 {% from "ispconfig/map.jinja" import ispconfig with context %}
 
 mariadb-server:
-  pkg.installed
+  pkg.installed:
+    - aggregate: true
 
 /etc/my.cnf:
   file.managed:
@@ -59,7 +60,7 @@ mariadb-server:
     - group: root
     - mode: 0600
     - require:
-      - cmd: mariadb_rootpassword
+      - mysql_user: mariadb_rootpassword
 
 mariadb_service:
   service.running:
@@ -78,18 +79,22 @@ mariadb_service:
 
 # change mariadb root password
 mariadb_rootpassword:
-  cmd.run:
-    - name: mysqladmin --user={{ salt['pillar.get']('mariadb_rootuser') }} password '{{ salt['pillar.get']('mariadb_rootpassword') }}'
+  mysql_user.present:
+    - name: {{ salt['pillar.get']('mariadb_rootuser') }}
+    - host: localhost
+    - password: {{ salt['pillar.get']('mariadb_rootpassword') }}
     - onchanges:
       - service: mariadb_service
 
 mysqltuner:
   pkg.installed:
+    - aggregate: true
     - require:
       - pkg: mariadb-server
 
 mytop:
   pkg.installed:
+    - aggregate: true
     - require:
       - pkg: mariadb-server
 /root/.mytop:
