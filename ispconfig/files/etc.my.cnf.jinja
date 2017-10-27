@@ -1,0 +1,12 @@
+[mysqld]
+
+symbolic-links=0
+
+datadir={{ salt['pillar.get']('mariadb_datadir') }}
+socket={{ salt['pillar.get']('mariadb_socket') }}
+
+[mysqld_safe]
+log-error={{ salt['pillar.get']('mariadb_log') }}
+pid-file={{ salt['pillar.get']('mariadb_pidfile') }}
+
+!includedir {{ salt['pillar.get']('mariadb_includedir') }}

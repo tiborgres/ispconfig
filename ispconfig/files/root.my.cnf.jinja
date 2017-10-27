@@ -1,0 +1,8 @@
+[mysql]
+user={{ salt['pillar.get']('mariadb_rootuser') }}
+password={{ salt['pillar.get']('mariadb_rootpassword') }}
+
+[client]
+user={{ salt['pillar.get']('mariadb_rootuser') }}
+password={{ salt['pillar.get']('mariadb_rootpassword') }}
+

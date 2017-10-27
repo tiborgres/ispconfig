@@ -1,0 +1,4 @@
+domain {{ salt['pillar.get']('etc_resolv_conf_domain') }}
+search {{ salt['pillar.get']('etc_resolv_conf_search') }}
+nameserver {{ salt['pillar.get']('nameserver') }}
+options {{ salt['pillar.get']('etc_resolv_conf_options') }}

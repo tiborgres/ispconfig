@@ -1,0 +1,7 @@
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="rd.lvm.vg={{ salt['pillar.get']('lvm_vgname') }} rd.lvm.lv={{ salt['pillar.get']('lvm_vgname') }}/{{ salt['pillar.get']('lvm_lvroot') }} rd.lvm.lv={{ salt['pillar.get']('lvm_vgname') }}/{{ salt['pillar.get']('lvm_lvswap') }} rhgb quiet rootflags=uquota,gquota"
+GRUB_DISABLE_RECOVERY="true"

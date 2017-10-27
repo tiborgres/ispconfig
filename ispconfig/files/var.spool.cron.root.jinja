@@ -1,0 +1,2 @@
+# setting the correct time
+*/10 * * * *	/usr/sbin/ntpdate {{ salt['pillar.get']('ntpserver') }}
