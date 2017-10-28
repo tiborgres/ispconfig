@@ -7,4 +7,5 @@ include:
   - ispconfig.zabbix_agent
   - ispconfig.mariadb
   - ispconfig.httpd
+  - ispconfig.mail
   - ispconfig.rkhunter
