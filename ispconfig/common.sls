@@ -20,7 +20,6 @@ common_packages:
       - mlocate
       - ntpdate
       - sysstat
-      - rkhunter
       - rsync
       - gdisk
       - bzip2

@@ -1,23 +1,8 @@
 {% from "ispconfig/map.jinja" import ispconfig with context %}
 
-/usr/bin/rkhunter --update:
-  cmd.run:
-    - require:
-      - file: /etc/rkhunter.conf
-      - file: /etc/sysconfig/rkhunter
-    - onchanges:
-      - pkg: common_packages
-/usr/bin/rkhunter --propupd:
-  cmd.run:
-    - require:
-      - cmd: /usr/bin/rkhunter --update
-      - file: /etc/rkhunter.conf
-      - file: /etc/sysconfig/rkhunter
-    - onchanges:
-      - pkg: common_packages
-    - watch:
-      - file: /etc/rkhunter.conf
-      - file: /etc/sysconfig/rkhunter
+rkhunter:
+  pkg.installed
+
 /etc/rkhunter.conf:
   file.managed:
     - source: salt://ispconfig/files/etc.rkhunter.conf.jinja
@@ -26,7 +11,8 @@
     - group: root
     - mode: 0600
     - require:
-      - pkg: common_packages
+      - pkg: rkhunter
+
 /etc/sysconfig/rkhunter:
   file.managed:
     - source: salt://ispconfig/files/etc.sysconfig.rkhunter.jinja
@@ -35,4 +21,25 @@
     - group: root
     - mode: 0600
     - require:
-      - pkg: common_packages
+      - pkg: rkhunter
+
+/usr/bin/rkhunter --update:
+  cmd.run:
+    - require:
+      - file: /etc/rkhunter.conf
+      - file: /etc/sysconfig/rkhunter
+    - onchanges:
+      - pkg: rkhunter
+      - file: /etc/rkhunter.conf
+      - file: /etc/sysconfig/rkhunter
+
+/usr/bin/rkhunter --propupd:
+  cmd.run:
+    - require:
+      - cmd: /usr/bin/rkhunter --update
+      - file: /etc/rkhunter.conf
+      - file: /etc/sysconfig/rkhunter
+    - onchanges:
+      - pkg: rkhunter
+      - file: /etc/rkhunter.conf
+      - file: /etc/sysconfig/rkhunter

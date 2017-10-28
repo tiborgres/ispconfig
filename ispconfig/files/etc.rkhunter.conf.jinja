@@ -130,7 +130,7 @@
 #
 # Also see the MAIL_CMD option.
 #
-#MAIL-ON-WARNING=me@mydomain   root@mydomain
+MAIL-ON-WARNING={{ salt['pillar.get']('server_admin_mail') }}
 
 #
 # This option specifies the mail command to use if MAIL-ON-WARNING is set.
@@ -141,7 +141,7 @@
 # The default is to use the 'mail' command, with a subject line
 # of '[rkhunter] Warnings found for ${HOST_NAME}'.
 #
-#MAIL_CMD=mail -s "[rkhunter] Warnings found for ${HOST_NAME}"
+MAIL_CMD=mail -s "[rkhunter] Warnings found for ${HOST_NAME}"
 
 #
 # This option specifies the directory to use for temporary files.
@@ -351,7 +351,7 @@ ALLOW_SSH_PROT_V1=0
 # program defaults.
 #
 ENABLE_TESTS=ALL
-DISABLE_TESTS=suspscan hidden_procs deleted_files packet_cap_apps apps
+DISABLE_TESTS=suspscan hidden_procs deleted_files packet_cap_apps apps ipc_shared_mem
 
 #
 # The HASH_CMD option can be used to specify the command to use for the file
@@ -995,7 +995,7 @@ SUSPSCAN_DIRS=/tmp /var/tmp
 #
 # The default value for both options is the null string.
 #
-PORT_WHITELIST="TCP:636 TCP:647 TCP:783 TCP:847 TCP:953 TCP:31337"
+PORT_WHITELIST="{{ salt['pillar.get']('rkhunter_port_whitelist') }}"
 #PORT_PATH_WHITELIST=""
 
 #
