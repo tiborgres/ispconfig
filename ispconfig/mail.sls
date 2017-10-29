@@ -2,8 +2,7 @@
 
 include:
   - ispconfig.rootdir
-# commented as 'ssl' formula is not done yet
-#  - ispconfig.ssl
+  - ispconfig.ssl
 
 # mailserver part of formula
 mail_packages:
@@ -26,26 +25,26 @@ mail_packages:
 # smtpd.crt
 {{ salt['pillar.get']('postfix_smtpd_crt') }}:
   file.symlink:
-    - target: {{ salt['pillar.get']('ssl_postfix_crt') }}
+    - target: {{ salt['pillar.get']('ssl:fullchain_crt') }}
     - force: True
-#    - require:
-#      - file: {{ salt['pillar.get']('ssl_postfix_crt') }}
+    - require:
+      - file: {{ salt['pillar.get']('ssl:fullchain_crt') }}
 
 # smtpd.cert symlink
 /etc/postfix/smtpd.cert:
   file.symlink:
     - target: {{ salt['pillar.get']('postfix_smtpd_crt') }}
     - force: True
-#    - require:
-#      - file: {{ salt['pillar.get']('postfix_smtpd_crt') }}
+    - require:
+      - file: {{ salt['pillar.get']('postfix_smtpd_crt') }}
 
 # smtpd.key
 {{ salt['pillar.get']('postfix_smtpd_key') }}:
   file.symlink:
-    - target: {{ salt['pillar.get']('ssl_key') }}
+    - target: {{ salt['pillar.get']('ssl:key') }}
     - force: True
-#    - require:
-#      - file: {{ salt['pillar.get']('ssl_key') }}
+    - require:
+      - file: {{ salt['pillar.get']('ssl:key') }}
 
 # tag_as_foreign.re
 {{ salt['pillar.get']('tag_as_foreign_re') }}:
