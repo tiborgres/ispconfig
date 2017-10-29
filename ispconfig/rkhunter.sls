@@ -23,8 +23,9 @@ rkhunter:
     - require:
       - pkg: rkhunter
 
-/usr/bin/rkhunter --update:
-  cmd.run:
+# rkhunter --update inside the helper script with fake exitcode 0
+salt://ispconfig/files/rkhunter-update.sh:
+  cmd.script:
     - require:
       - file: /etc/rkhunter.conf
       - file: /etc/sysconfig/rkhunter
@@ -36,7 +37,7 @@ rkhunter:
 /usr/bin/rkhunter --propupd:
   cmd.run:
     - require:
-      - cmd: /usr/bin/rkhunter --update
+      - cmd: salt://ispconfig/files/rkhunter-update.sh
       - file: /etc/rkhunter.conf
       - file: /etc/sysconfig/rkhunter
     - onchanges:
