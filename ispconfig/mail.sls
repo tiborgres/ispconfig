@@ -179,15 +179,15 @@ crm114_packages:
     - mode: 0644
     - require:
       - file: {{ salt['pillar.get']('freshclam_conf') }}
-    - watch_in:
+    - onchanges_in:
       - cmd: freshclam
 
 # onetime run of ClamAV database update - freshclam
 freshclam:
-  cmd.wait:
+  cmd.run:
     - require:
       - file: {{ salt['pillar.get']('freshclam_sysconfig') }}
-    - watch:
+    - onchanges:
       - file: {{ salt['pillar.get']('freshclam_sysconfig') }}
 
 # amavisd service
@@ -199,15 +199,15 @@ amavisd:
       - pkg: antispam_packages
     - watch:
       - file: {{ salt['pillar.get']('freshclam_conf') }}
-    - watch_in:
+    - onchanges_in:
       - cmd: salt://ispconfig/files/sa-update.sh
 
 # sa-update inside the helper script with fake exitcode 0
 salt://ispconfig/files/sa-update.sh:
-  cmd.wait_script:
+  cmd.script:
     - require:
       - service: amavisd
-    - watch:
+    - onchanges:
       - service: amavisd
 
 # ClamAV service
